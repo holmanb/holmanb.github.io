@@ -1,0 +1,90 @@
+baseURL = 'https://phoenix-labs.xyz'
+languageCode = 'en-us'
+title = 'Phoenix Labs'
+theme = 'risotto'
+author = 'Brett Holman'
+paginate = 3
+DefaultContentLanguage = "en"
+enableInlineShortcodes = true
+copyright = "© 2022 Brett Holman"
+
+# Automatically add content sections to main menu
+#sectionPagesMenu = "main"
+
+[params]
+
+[params.theme]
+palette = "gruvbox-dark"
+mode = "dark-mode"
+
+# Sidebar: about/bio
+#[params.about]
+#title = "risotto"
+#description = "A [hugo](https://gohugo.io) theme inspired by terminal ricing."
+#logo = "images/rice.svg"
+
+# Sidebar: social links
+# Available icon sets:
+# * FontAwesome 5 <https://fontawesome.com/> ('fas fa-' or 'fab-fa' for brands)
+# * Academicons <https://jpswalsh.github.io/academicons> ('ai ai-')
+
+[[params.socialLinks]]
+icon = "fab fa-github"
+title = "GitHub"
+url = "https://github.com/holmanb"
+
+[[params.socialLinks]]
+icon = "ai ai-stackoverflow"
+title = "StackOverflow"
+url = "https://stackoverflow.com/users/7407726/brett-holman"
+
+[menu]
+
+  [[menu.main]]
+    identifier = "about"
+    name = "About"
+    url = "/about/"
+    weight = 10
+
+  [[menu.main]]
+    identifier = "blog"
+    name = "Blog"
+    url = "/blog/"
+    weight = 10
+
+[taxonomies]
+category = "categories"
+tag = "tags"
+series = "series"
+
+# For hugo >= 0.60.0, enable inline HTML
+[markup.goldmark.renderer]
+unsafe = true
+
+
+[privacy]
+  [privacy.disqus]
+    disable = true
+  [privacy.googleAnalytics]
+    disable = false
+    anonymizeIP = true
+    respectDoNotTrack = true
+    useSessionStorage = false
+
+  [privacy.instagram]
+    disable = true
+  [privacy.twitter]
+    disable = true
+  [privacy.vimeo]
+    disable = true
+  [privacy.youtube]
+    disable = true
+
+
+[services]
+
+  [services.instagram]
+    disableInlineCSS = true
+
+  [services.twitter]
+    disableInlineCSS = true

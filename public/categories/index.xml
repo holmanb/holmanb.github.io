@@ -5,6 +5,7 @@
     <link>https://phoenix-labs.xyz/categories/</link>
     <description>Recent content in Categories on Phoenix Labs</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language><atom:link href="https://phoenix-labs.xyz/categories/index.xml" rel="self" type="application/rss+xml" />
+    <language>en-us</language>
+    <copyright>© 2022 Brett Holman</copyright><atom:link href="https://phoenix-labs.xyz/categories/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>
