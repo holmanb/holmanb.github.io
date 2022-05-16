@@ -43,7 +43,7 @@ url = "https://stackoverflow.com/users/7407726/brett-holman"
   [[menu.main]]
     identifier = "about"
     name = "About"
-    url = "/about/"
+    url = "/"
     weight = 10
 
   [[menu.main]]

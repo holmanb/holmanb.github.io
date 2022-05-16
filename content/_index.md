@@ -1,10 +1,16 @@
 +++
 title = "About Me"
 description = "About Me"
-date = "2019-02-28"
-aliases = ["about", "contact", "whois", "whoami"]
+date = "2022-05-16"
 author = "Brett Holman"
 +++
+
+# Languages:
+
+* Python
+* Rust (learning)
+* Go
+* C
 
 # Technical Interests:
 
@@ -17,3 +23,9 @@ author = "Brett Holman"
 * rock climbing
 * reading
 * chess
+
+# What's with the website name?
+
+A pro sports athlete shares my name that wasn't an option.
+
+Some metaphor about rebuilding things I guess?
