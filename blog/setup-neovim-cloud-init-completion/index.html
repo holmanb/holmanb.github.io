@@ -1,181 +1,93 @@
-<!DOCTYPE html>
-<html lang="en">
-
-    <head><title>Quickstart: Neovim Configuration for cloud-init &ndash; Phoenix Labs</title>
-
-
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta charset="utf-8"/>
-
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
-
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.9.1/css/academicons.min.css" integrity="sha512-b1ASx0WHgVFL5ZQhTgiPWX+68KjS38Jk87jg7pe+qC7q9YkEtFq0z7xCglv7qGIs/68d3mAp+StfC8WKC5SSAg==" crossorigin="anonymous" />
-
-
-<link rel="stylesheet" href="https://phoenix-labs.xyz/css/colour/gruvbox-dark.css">
-<link rel="stylesheet" href="https://phoenix-labs.xyz/css/colour/dark-mode.css">
-<link rel="stylesheet" href="https://phoenix-labs.xyz/css/risotto.css">
-<link rel="stylesheet" href="https://phoenix-labs.xyz/css/custom.css">
-</head>
-
-    <body>
-        <div class="page">
-	<aside>
-		<h2>Links</h2>
-		<ul><li><a href="https://github.com/holmanb/" target="_blank">Github</a></li>
-		<li><a href="https://www.linkedin.com/in/brett-holman/"
-					target="_blank">Linkedin</a></li></ul>
-	</aside>
-
-            <header class="page__header"><h1 class="page__logo"><a href="https://phoenix-labs.xyz" class="page__logo-inner">Phoenix Labs</a></h1>
-<nav class="page__nav main-nav">
-    <ul>
-    
-    
-    <li class="main-nav__item"><a class="nav-main-item" href="/about/" title="">About</a></li>
-    
-    <li class="main-nav__item"><a class="nav-main-item" href="/blog/" title="">Blog</a></li>
-    
-    </ul>
-</nav>
-
-</header>
-
-            <section class="page__body">
-    <header class="content__header">
-        <h1>Quickstart: Neovim Configuration for cloud-init</h1>
-    </header>
-    <div class="content__body">
-        <h1 id="the-problem">The Problem</h1>
-<p>Manually writing yaml cloud-configs is error prone and debugging can be
+<!doctype html><html lang=en><head><title>Quickstart: Neovim Configuration for cloud-init &ndash; Phoenix Labs</title><meta name=viewport content="width=device-width,initial-scale=1"><meta charset=utf-8><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin=anonymous><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/academicons/1.9.1/css/academicons.min.css integrity="sha512-b1ASx0WHgVFL5ZQhTgiPWX+68KjS38Jk87jg7pe+qC7q9YkEtFq0z7xCglv7qGIs/68d3mAp+StfC8WKC5SSAg==" crossorigin=anonymous><link rel=stylesheet href=https://phoenix-labs.xyz/css/colour/gruvbox-dark.css><link rel=stylesheet href=https://phoenix-labs.xyz/css/colour/dark-mode.css><link rel=stylesheet href=https://phoenix-labs.xyz/css/risotto.css><link rel=stylesheet href=https://phoenix-labs.xyz/css/custom.css></head><body><div class=page><aside><h2>Links</h2><ul><li><a href=https://github.com/holmanb/ target=_blank>Github</a></li><li><a href=https://www.linkedin.com/in/brett-holman/ target=_blank>Linkedin</a></li></ul></aside><header class=page__header><h1 class=page__logo><a href=https://phoenix-labs.xyz class=page__logo-inner>Phoenix Labs</a></h1><nav class="page__nav main-nav"><ul><li class=main-nav__item><a class=nav-main-item href=/about/ title>About</a></li><li class=main-nav__item><a class=nav-main-item href=/blog/ title>Blog</a></li></ul></nav></header><section class=page__body><header class=content__header><h1>Quickstart: Neovim Configuration for cloud-init</h1></header><div class=content__body><h1 id=the-problem>The Problem</h1><p>Manually writing yaml cloud-configs is error prone and debugging can be
 painful. Neovim can help us write configs faster and with more
-confidence with editor hints made available using the user-data jsonschema.</p>
-<h1 id="background">Background</h1>
-<p>Neovim has native LSP support as of 0.5. This means that Neovim can use
+confidence with editor hints made available using the user-data jsonschema.</p><h1 id=background>Background</h1><p>Neovim has native LSP support as of 0.5. This means that Neovim can use
 many of the same language servers available in VSCode with just a little
-configuration.</p>
-<p>The language server we will be setting up is
-<a href="https://github.com/redhat-developer/yaml-language-server">yamlls</a>, which is
-described as a &ldquo;Language Server for YAML Files&rdquo;.</p>
-<p>Cloud-init uses a jsonschema for validating user configs. This can
+configuration.</p><p>The language server we will be setting up is
+<a href=https://github.com/redhat-developer/yaml-language-server>yamlls</a>, which is
+described as a &ldquo;Language Server for YAML Files&rdquo;.</p><p>Cloud-init uses a jsonschema for validating user configs. This can
 be invoked via <code>cloud-init schema -c userdata.yml</code> starting with release 22.2 (May 2022).
-The same schema will be used for editor hints.</p>
-<p>We will also install and configure nvim-cmp, a completion engine for neovim.</p>
-<h1 id="testing">Testing</h1>
-<p>This post demonstrates how to configure a language server for cloud-init. If
+The same schema will be used for editor hints.</p><p>We will also install and configure nvim-cmp, a completion engine for neovim.</p><h1 id=testing>Testing</h1><p>This post demonstrates how to configure a language server for cloud-init. If
 you would rather test this functionality without modifying your configs,
 you&rsquo;re in luck! Skip ahead to the
-<a href="https://phoenix-labs.xyz/blog/setup-neovim-cloud-init-completion/#quicktest">quicktest</a>
-section.</p>
-<h1 id="dependencies">Dependencies:</h1>
-<pre tabindex="0"><code>- neovim (version 0.6 or higher)
+<a href=https://phoenix-labs.xyz/blog/setup-neovim-cloud-init-completion/#quicktest>quicktest</a>
+section.</p><h1 id=dependencies>Dependencies:</h1><pre tabindex=0><code>- neovim (version 0.6 or higher)
 - npm
 - curl
-</code></pre><h1 id="configurations">Configurations</h1>
-<p>The init.vim installs plugins and sources configs for the LSP server and
-completion plugin.</p>
-<p><code>/root/.config/nvim/init.vim</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-vim" data-lang="vim"><span style="color:#75715e">&#34; Install plugins</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e">&#34; ===============</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#a6e22e">call</span> <span style="color:#a6e22e">plug</span>#<span style="color:#a6e22e">begin</span>()<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e">
-</span><span style="color:#75715e">&#34; For language servers</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#a6e22e">Plug</span> <span style="color:#e6db74">&#39;neovim/nvim-lspconfig&#39;</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e">
-</span><span style="color:#75715e">&#34; For nvim-cmp</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#a6e22e">Plug</span> <span style="color:#e6db74">&#39;hrsh7th/nvim-cmp&#39;</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#a6e22e">Plug</span> <span style="color:#e6db74">&#39;hrsh7th/cmp-nvim-lsp&#39;</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#a6e22e">call</span> <span style="color:#a6e22e">plug</span>#<span style="color:#a6e22e">end</span>()<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e">
-</span><span style="color:#75715e">&#34; source lsp and cmp plugin configs</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#a6e22e">lua</span> <span style="color:#a6e22e">require</span><span style="color:#e6db74">&#39;lsp-config&#39;</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#a6e22e">lua</span> <span style="color:#a6e22e">require</span><span style="color:#e6db74">&#39;nvim-cmp&#39;</span><span style="color:#960050;background-color:#1e0010">
-</span></code></pre></div><p>Note the keybinds for the completion engine.
-<code>/root/.config/nvim/lua/nvim-cmp.lua</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-lua" data-lang="lua"><span style="color:#75715e">-- Setup nvim-cmp.</span>
-<span style="color:#66d9ef">local</span> cmp <span style="color:#f92672">=</span> require<span style="color:#e6db74">&#39;cmp&#39;</span>
-cmp.setup({
-mapping <span style="color:#f92672">=</span> {
-[<span style="color:#e6db74">&#39;&lt;C-n&gt;&#39;</span>] <span style="color:#f92672">=</span> cmp.mapping.select_next_item({ behavior <span style="color:#f92672">=</span> cmp.SelectBehavior.Insert }),
-[<span style="color:#e6db74">&#39;&lt;C-p&gt;&#39;</span>] <span style="color:#f92672">=</span> cmp.mapping.select_prev_item({ behavior <span style="color:#f92672">=</span> cmp.SelectBehavior.Insert }),
-[<span style="color:#e6db74">&#39;&lt;Down&gt;&#39;</span>] <span style="color:#f92672">=</span> cmp.mapping.select_next_item({ behavior <span style="color:#f92672">=</span> cmp.SelectBehavior.Select }),
-[<span style="color:#e6db74">&#39;&lt;Up&gt;&#39;</span>] <span style="color:#f92672">=</span> cmp.mapping.select_prev_item({ behavior <span style="color:#f92672">=</span> cmp.SelectBehavior.Select }),
-[<span style="color:#e6db74">&#39;&lt;C-d&gt;&#39;</span>] <span style="color:#f92672">=</span> cmp.mapping.scroll_docs(<span style="color:#f92672">-</span><span style="color:#ae81ff">4</span>),
-[<span style="color:#e6db74">&#39;&lt;C-f&gt;&#39;</span>] <span style="color:#f92672">=</span> cmp.mapping.scroll_docs(<span style="color:#ae81ff">4</span>),
-[<span style="color:#e6db74">&#39;&lt;C-Space&gt;&#39;</span>] <span style="color:#f92672">=</span> cmp.mapping.complete(),
-[<span style="color:#e6db74">&#39;&lt;C-e&gt;&#39;</span>] <span style="color:#f92672">=</span> cmp.mapping.close(),
-[<span style="color:#e6db74">&#39;&lt;CR&gt;&#39;</span>] <span style="color:#f92672">=</span> cmp.mapping.confirm({
-  behavior <span style="color:#f92672">=</span> cmp.ConfirmBehavior.Replace,
-  select <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>,
-  })
-},
-sources <span style="color:#f92672">=</span> {
-  { name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;nvim_lsp&#39;</span> },
-}
-})
-</code></pre></div><p>The schema referenced is the latest version in the main branch. To
+</code></pre><h1 id=configurations>Configurations</h1><p>The init.vim installs plugins and sources configs for the LSP server and
+completion plugin.</p><p><code>/root/.config/nvim/init.vim</code></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-vim data-lang=vim><span style=display:flex><span><span style=color:#75715e>&#34; Install plugins</span><span style=color:#960050;background-color:#1e0010>
+</span></span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010></span><span style=color:#75715e>&#34; ===============</span><span style=color:#960050;background-color:#1e0010>
+</span></span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010></span><span style=color:#a6e22e>call</span> <span style=color:#a6e22e>plug</span>#<span style=color:#a6e22e>begin</span>()<span style=color:#960050;background-color:#1e0010>
+</span></span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010></span><span style=color:#75715e>
+</span></span></span><span style=display:flex><span><span style=color:#75715e>&#34; For language servers</span><span style=color:#960050;background-color:#1e0010>
+</span></span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010></span><span style=color:#a6e22e>Plug</span> <span style=color:#e6db74>&#39;neovim/nvim-lspconfig&#39;</span><span style=color:#960050;background-color:#1e0010>
+</span></span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010></span><span style=color:#75715e>
+</span></span></span><span style=display:flex><span><span style=color:#75715e>&#34; For nvim-cmp</span><span style=color:#960050;background-color:#1e0010>
+</span></span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010></span><span style=color:#a6e22e>Plug</span> <span style=color:#e6db74>&#39;hrsh7th/nvim-cmp&#39;</span><span style=color:#960050;background-color:#1e0010>
+</span></span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010></span><span style=color:#a6e22e>Plug</span> <span style=color:#e6db74>&#39;hrsh7th/cmp-nvim-lsp&#39;</span><span style=color:#960050;background-color:#1e0010>
+</span></span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010>
+</span></span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010></span><span style=color:#a6e22e>call</span> <span style=color:#a6e22e>plug</span>#<span style=color:#a6e22e>end</span>()<span style=color:#960050;background-color:#1e0010>
+</span></span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010></span><span style=color:#75715e>
+</span></span></span><span style=display:flex><span><span style=color:#75715e>&#34; source lsp and cmp plugin configs</span><span style=color:#960050;background-color:#1e0010>
+</span></span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010></span><span style=color:#a6e22e>lua</span> <span style=color:#a6e22e>require</span><span style=color:#e6db74>&#39;lsp-config&#39;</span><span style=color:#960050;background-color:#1e0010>
+</span></span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010></span><span style=color:#a6e22e>lua</span> <span style=color:#a6e22e>require</span><span style=color:#e6db74>&#39;nvim-cmp&#39;</span><span style=color:#960050;background-color:#1e0010>
+</span></span></span></code></pre></div><p>Note the keybinds for the completion engine.
+<code>/root/.config/nvim/lua/nvim-cmp.lua</code></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lua data-lang=lua><span style=display:flex><span><span style=color:#75715e>-- Setup nvim-cmp.</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>local</span> cmp <span style=color:#f92672>=</span> require<span style=color:#e6db74>&#39;cmp&#39;</span>
+</span></span><span style=display:flex><span>cmp.setup({
+</span></span><span style=display:flex><span>mapping <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>[<span style=color:#e6db74>&#39;&lt;C-n&gt;&#39;</span>] <span style=color:#f92672>=</span> cmp.mapping.select_next_item({ behavior <span style=color:#f92672>=</span> cmp.SelectBehavior.Insert }),
+</span></span><span style=display:flex><span>[<span style=color:#e6db74>&#39;&lt;C-p&gt;&#39;</span>] <span style=color:#f92672>=</span> cmp.mapping.select_prev_item({ behavior <span style=color:#f92672>=</span> cmp.SelectBehavior.Insert }),
+</span></span><span style=display:flex><span>[<span style=color:#e6db74>&#39;&lt;Down&gt;&#39;</span>] <span style=color:#f92672>=</span> cmp.mapping.select_next_item({ behavior <span style=color:#f92672>=</span> cmp.SelectBehavior.Select }),
+</span></span><span style=display:flex><span>[<span style=color:#e6db74>&#39;&lt;Up&gt;&#39;</span>] <span style=color:#f92672>=</span> cmp.mapping.select_prev_item({ behavior <span style=color:#f92672>=</span> cmp.SelectBehavior.Select }),
+</span></span><span style=display:flex><span>[<span style=color:#e6db74>&#39;&lt;C-d&gt;&#39;</span>] <span style=color:#f92672>=</span> cmp.mapping.scroll_docs(<span style=color:#f92672>-</span><span style=color:#ae81ff>4</span>),
+</span></span><span style=display:flex><span>[<span style=color:#e6db74>&#39;&lt;C-f&gt;&#39;</span>] <span style=color:#f92672>=</span> cmp.mapping.scroll_docs(<span style=color:#ae81ff>4</span>),
+</span></span><span style=display:flex><span>[<span style=color:#e6db74>&#39;&lt;C-Space&gt;&#39;</span>] <span style=color:#f92672>=</span> cmp.mapping.complete(),
+</span></span><span style=display:flex><span>[<span style=color:#e6db74>&#39;&lt;C-e&gt;&#39;</span>] <span style=color:#f92672>=</span> cmp.mapping.close(),
+</span></span><span style=display:flex><span>[<span style=color:#e6db74>&#39;&lt;CR&gt;&#39;</span>] <span style=color:#f92672>=</span> cmp.mapping.confirm({
+</span></span><span style=display:flex><span>  behavior <span style=color:#f92672>=</span> cmp.ConfirmBehavior.Replace,
+</span></span><span style=display:flex><span>  select <span style=color:#f92672>=</span> <span style=color:#66d9ef>true</span>,
+</span></span><span style=display:flex><span>  })
+</span></span><span style=display:flex><span>},
+</span></span><span style=display:flex><span>sources <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>  { name <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;nvim_lsp&#39;</span> },
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>})
+</span></span></code></pre></div><p>The schema referenced is the latest version in the main branch. To
 reference a specific release version (schemas change over time), one can
 find the url location of the file in the release tag file tree and
 update this value accordingly. These will soon be published on the schema store
 for easier configuration.
-<code>/root/.config/nvim/lua/lsp-config.lua</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-lua" data-lang="lua"><span style="color:#75715e">-- yamlls config</span>
-require<span style="color:#e6db74">&#39;lspconfig&#39;</span>.yamlls.setup{
-  on_attach<span style="color:#f92672">=</span>on_attach,
-  capabilities <span style="color:#f92672">=</span> require(<span style="color:#e6db74">&#39;cmp_nvim_lsp&#39;</span>).update_capabilities(vim.lsp.protocol.make_client_capabilities()),
-  settings <span style="color:#f92672">=</span> {
-    yaml <span style="color:#f92672">=</span> {
-      schemas <span style="color:#f92672">=</span> {
-        [<span style="color:#e6db74">&#34;https://raw.githubusercontent.com/canonical/cloud-init/main/cloudinit/config/cloud-init-schema.json&#34;</span>]<span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;user-data.yml&#34;</span>,
-      }
-    }
-  }
-}
-</code></pre></div><h1 id="install-language-server-and-plugins">Install Language Server and Plugins</h1>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># install yamlls</span>
-npm i -g yaml-language-server
-
-<span style="color:#75715e"># install vim plugin manager</span>
-sh -c <span style="color:#e6db74">&#39;curl -fLo /root/.local/share/nvim/site/autoload/plug.vim --create-dirs \
-</span><span style="color:#e6db74">       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim&#39;</span>
-
-<span style="color:#75715e"># install yaml plugins</span>
-nvim +PlugInstall
-</code></pre></div><h1 id="quicktest">Quicktest</h1>
-<p>I wrote a <a href="https://gist.githubusercontent.com/holmanb/75e0974c759dd6180cdf74da6fd01551/raw/c70ffba3e454957754923eaf8060ef4b3feaaa27/user-data-schema-neovim.yml">cloud config</a>
+<code>/root/.config/nvim/lua/lsp-config.lua</code></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lua data-lang=lua><span style=display:flex><span><span style=color:#75715e>-- yamlls config</span>
+</span></span><span style=display:flex><span>require<span style=color:#e6db74>&#39;lspconfig&#39;</span>.yamlls.setup{
+</span></span><span style=display:flex><span>  on_attach<span style=color:#f92672>=</span>on_attach,
+</span></span><span style=display:flex><span>  capabilities <span style=color:#f92672>=</span> require(<span style=color:#e6db74>&#39;cmp_nvim_lsp&#39;</span>).update_capabilities(vim.lsp.protocol.make_client_capabilities()),
+</span></span><span style=display:flex><span>  settings <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>    yaml <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>      schemas <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>        [<span style=color:#e6db74>&#34;https://raw.githubusercontent.com/canonical/cloud-init/main/cloudinit/config/cloud-init-schema.json&#34;</span>]<span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;user-data.yml&#34;</span>,
+</span></span><span style=display:flex><span>      }
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h1 id=install-language-server-and-plugins>Install Language Server and Plugins</h1><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># install yamlls</span>
+</span></span><span style=display:flex><span>npm i -g yaml-language-server
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># install vim plugin manager</span>
+</span></span><span style=display:flex><span>sh -c <span style=color:#e6db74>&#39;curl -fLo /root/.local/share/nvim/site/autoload/plug.vim --create-dirs \
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim&#39;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># install yaml plugins</span>
+</span></span><span style=display:flex><span>nvim +PlugInstall
+</span></span></code></pre></div><h1 id=quicktest>Quicktest</h1><p>I wrote a <a href=https://gist.githubusercontent.com/holmanb/75e0974c759dd6180cdf74da6fd01551/raw/c70ffba3e454957754923eaf8060ef4b3feaaa27/user-data-schema-neovim.yml>cloud config</a>
 that will configure neovim in an lxc container.
-This requires LXD to be installed and configured.</p>
-<p>To use this config, execute the following:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># Launch the image with the cloud-config</span>
-lxc launch images:ubuntu/kinetic/cloud neovim -c cloud-init.user-data<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>curl https://gist.githubusercontent.com/holmanb/75e0974c759dd6180cdf74da6fd01551/raw/c70ffba3e454957754923eaf8060ef4b3feaaa27/user-data-schema-neovim.yml<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
-
-<span style="color:#75715e"># This will take a couple of minutes - coffee break!</span>
-lxc exec neovim -- sh -c <span style="color:#e6db74">&#34;cd /root &amp;&amp; cloud-init status --wait &amp;&amp; nvim user-data.yml&#34;</span>
-</code></pre></div><p>Start typing and you should see the completions!</p>
-<p>If you don&rsquo;t have the <a href="https://cloudinit.readthedocs.io/en/latest/topics/modules.html">module reference</a>
-handy, <code>&lt;ctrl-space&gt;</code> (while in insert mode) will list all available keys.</p>
-<p>Stay curious!</p>
-<h1 id="credit">Credit</h1>
-<p>This post is heavily based on a post by Waylon Walker on
-<a href="https://waylonwalker.com/setup-yamlls/">neovim/yamlls configuration</a>.
-Thanks Waylon!</p>
-<h1 id="todo-make-this-a-footer-for-all-blog-posts">TODO: Make this a footer for all blog posts.</h1>
-<p>If this post contains dated or inaccurate information, I would really
+This requires LXD to be installed and configured.</p><p>To use this config, execute the following:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># Launch the image with the cloud-config</span>
+</span></span><span style=display:flex><span>lxc launch images:ubuntu/kinetic/cloud neovim -c cloud-init.user-data<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;</span><span style=color:#66d9ef>$(</span>curl https://gist.githubusercontent.com/holmanb/75e0974c759dd6180cdf74da6fd01551/raw/c70ffba3e454957754923eaf8060ef4b3feaaa27/user-data-schema-neovim.yml<span style=color:#66d9ef>)</span><span style=color:#e6db74>&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># This will take a couple of minutes - coffee break!</span>
+</span></span><span style=display:flex><span>lxc exec neovim -- sh -c <span style=color:#e6db74>&#34;cd /root &amp;&amp; cloud-init status --wait &amp;&amp; nvim user-data.yml&#34;</span>
+</span></span></code></pre></div><p>Start typing and you should see the completions!</p><p>If you don&rsquo;t have the <a href=https://cloudinit.readthedocs.io/en/latest/topics/modules.html>module reference</a>
+handy, <code>&lt;ctrl-space></code> (while in insert mode) will list all available keys.</p><p>Stay curious!</p><h1 id=credit>Credit</h1><p>This post is heavily based on a post by Waylon Walker on
+<a href=https://waylonwalker.com/setup-yamlls/>neovim/yamlls configuration</a>.
+Thanks Waylon!</p><h1 id=todo-make-this-a-footer-for-all-blog-posts>TODO: Make this a footer for all blog posts.</h1><p>If this post contains dated or inaccurate information, I would really
 appreciate it if you could please open a bug at [insert link] describing
-in detail the error and (if you have one) a recommended fix.</p>
-
-    </div>
-    <footer class="content__footer"></footer>
-
-            </section>
-
-            <footer class="page__footer"><p class="copyright">© 2022 Brett Holman</p>
-</footer>
-
-        </div>
-    </body>
-
-</html>
+in detail the error and (if you have one) a recommended fix.</p></div><footer class=content__footer></footer></section><footer class=page__footer><p class=copyright>© 2022 Brett Holman</p></footer></div></body></html>
