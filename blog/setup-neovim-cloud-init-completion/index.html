@@ -2,19 +2,27 @@
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","UA-69942427-1")</script></head><body><div class=page><aside><h2>Links</h2><ul><li><a href=https://github.com/holmanb/ target=_blank>Github</a></li><li><a href=https://www.linkedin.com/in/brett-holman/ target=_blank>Linkedin</a></li></ul></aside><header class=page__header><h1 class=page__logo><a href=https://phoenix-labs.xyz class=page__logo-inner>Phoenix Labs</a></h1><nav class="page__nav main-nav"><ul><li class=main-nav__item><a class=nav-main-item href=/about/ title>About</a></li><li class=main-nav__item><a class=nav-main-item href=/blog/ title>Blog</a></li></ul></nav></header><section class=page__body><header class=content__header><h1>Quickstart: Neovim Configuration for cloud-init</h1></header><div class=content__body><h1 id=the-problem>The Problem</h1><p>Manually writing yaml cloud-configs is error prone and debugging can be
 painful. Neovim can help us write configs faster and with more
 confidence with editor hints made available using the user-data jsonschema.</p><h1 id=background>Background</h1><p>Neovim has native LSP support as of 0.5. This means that Neovim can use
-many of the same language servers available in VSCode with just a little
-configuration.</p><p>The language server we will be setting up is
-<a href=https://github.com/redhat-developer/yaml-language-server>yamlls</a>, which is
-described as a &ldquo;Language Server for YAML Files&rdquo;.</p><p>Cloud-init uses a jsonschema for validating user configs. This can
+many of the same language servers available in VS Code with just a little
+configuration.</p><p>Cloud-init uses a jsonschema for validating user configs. This can
 be invoked via <code>cloud-init schema -c userdata.yml</code> starting with release 22.2 (May 2022).
-The same schema will be used for editor hints.</p><p>We will also install and configure nvim-cmp, a completion engine for neovim.</p><h1 id=testing>Testing</h1><p>This post demonstrates how to configure a language server for cloud-init. If
+The same schema will be used for editor hints.</p><p>We will also install and configure
+<a href=https://github.com/hrsh7th/nvim-cmp>nvim-cmp</a>, a completion engine for
+neovim, and <a href=https://github.com/redhat-developer/yaml-language-server>yamlls</a>
+language server, which is described as a &ldquo;Language Server for YAML Files&rdquo;.</p><h1 id=testing>Testing</h1><p>This post demonstrates how to configure a language server for cloud-init. If
 you would rather test this functionality without modifying your configs,
 you&rsquo;re in luck! Skip ahead to the
 <a href=https://phoenix-labs.xyz/blog/setup-neovim-cloud-init-completion/#quicktest>quicktest</a>
 section.</p><h1 id=dependencies>Dependencies:</h1><pre tabindex=0><code>- neovim (version 0.6 or higher)
 - npm
 - curl
-</code></pre><h1 id=configurations>Configurations</h1><p>The init.vim installs plugins and sources configs for the LSP server and
+</code></pre><h1 id=configurations>Configurations</h1><p>The configs are in separate files so that you can easily integrate them into
+your existing config. After this section is complete, the directory
+structure under <code>~/.config/nvim/</code> should look something like this:</p><pre tabindex=0><code>.
+├── init.vim
+└── lua
+    ├── lsp-config.lua
+    └── nvim-cmp.lua
+</code></pre><p>The init.vim installs plugins and sources configs for the LSP server and
 completion plugin.</p><p><code>/root/.config/nvim/init.vim</code></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-vim data-lang=vim><span style=display:flex><span><span style=color:#75715e>&#34; Install plugins</span><span style=color:#960050;background-color:#1e0010>
 </span></span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010></span><span style=color:#75715e>&#34; ===============</span><span style=color:#960050;background-color:#1e0010>
 </span></span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010></span><span style=color:#a6e22e>call</span> <span style=color:#a6e22e>plug</span>#<span style=color:#a6e22e>begin</span>()<span style=color:#960050;background-color:#1e0010>
@@ -86,7 +94,6 @@ This requires LXD to be installed and configured.</p><p>To use this config, exec
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span><span style=color:#75715e># This will take a couple of minutes - coffee break!</span>
 </span></span><span style=display:flex><span>lxc exec neovim -- sh -c <span style=color:#e6db74>&#34;cd /root &amp;&amp; cloud-init status --wait &amp;&amp; nvim user-data.yml&#34;</span>
-</span></span></code></pre></div><p>Start typing and you should see the completions!</p><p>If you don&rsquo;t have the <a href=https://cloudinit.readthedocs.io/en/latest/topics/modules.html>module reference</a>
-handy, <code>&lt;ctrl-space></code> (while in insert mode) will list all available keys.</p><p>Stay curious!</p><h1 id=credit>Credit</h1><p>This post is heavily based on a post by Waylon Walker on
+</span></span></code></pre></div><p>Start typing and you should see the completions!</p><p>To view all available keys, use <code>&lt;ctrl-space></code> (in insert mode).</p><p>Stay curious!</p><h1 id=credit>Credit</h1><p>This post is heavily based on a post by Waylon Walker on
 <a href=https://waylonwalker.com/setup-yamlls/>neovim/yamlls configuration</a>.</p></div><section class=post__footer><h1>Bugs</h1>If this post contains dated or inaccurate information, please open a
-[<a href=https://github.com/holmanb/holmanb.github.io>bug report</a>].</section><footer class=content__footer></footer></section><footer class=page__footer><p class=copyright>© 2022 Brett Holman</p></footer></div></body></html>
+[<a href=https://github.com/holmanb/holmanb.github.io/issues>bug report</a>].</section><footer class=content__footer></footer></section><footer class=page__footer><p class=copyright>© 2022 Brett Holman</p></footer></div></body></html>
