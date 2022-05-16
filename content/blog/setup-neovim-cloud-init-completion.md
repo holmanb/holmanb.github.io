@@ -157,10 +157,3 @@ Stay curious!
 
 This post is heavily based on a post by Waylon Walker on
 [neovim/yamlls configuration](https://waylonwalker.com/setup-yamlls/).
-Thanks Waylon!
-
-
-# TODO: Make this a footer for all blog posts.
-If this post contains dated or inaccurate information, I would really
-appreciate it if you could please open a bug at [insert link] describing
-in detail the error and (if you have one) a recommended fix.
