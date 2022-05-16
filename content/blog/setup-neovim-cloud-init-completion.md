@@ -13,18 +13,18 @@ confidence with editor hints made available using the user-data jsonschema.
 # Background
 
 Neovim has native LSP support as of 0.5. This means that Neovim can use
-many of the same language servers available in VSCode with just a little
+many of the same language servers available in VS Code with just a little
 configuration.
 
-The language server we will be setting up is
-[yamlls](https://github.com/redhat-developer/yaml-language-server), which is
-described as a "Language Server for YAML Files".
 
 Cloud-init uses a jsonschema for validating user configs. This can
 be invoked via `cloud-init schema -c userdata.yml` starting with release 22.2 (May 2022).
 The same schema will be used for editor hints.
 
-We will also install and configure nvim-cmp, a completion engine for neovim.
+We will also install and configure
+[nvim-cmp](https://github.com/hrsh7th/nvim-cmp), a completion engine for
+neovim, and [yamlls](https://github.com/redhat-developer/yaml-language-server)
+language server, which is described as a "Language Server for YAML Files".
 
 
 # Testing
@@ -158,8 +158,7 @@ lxc exec neovim -- sh -c "cd /root && cloud-init status --wait && nvim user-data
 
 Start typing and you should see the completions!
 
-If you don't have the [module reference](https://cloudinit.readthedocs.io/en/latest/topics/modules.html)
-handy, `<ctrl-space>` (while in insert mode) will list all available keys.
+To view all available keys, use `<ctrl-space>` (in insert mode).
 
 Stay curious!
 
