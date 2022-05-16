@@ -45,6 +45,17 @@ section.
 
 # Configurations
 
+The configs are in separate files so that you can easily integrate them into
+your existing config. After this section is complete, the directory
+structure under `~/.config/nvim/` should look something like this:
+```
+.
+├── init.vim
+└── lua
+    ├── lsp-config.lua
+    └── nvim-cmp.lua
+```
+
 The init.vim installs plugins and sources configs for the LSP server and
 completion plugin.
 
