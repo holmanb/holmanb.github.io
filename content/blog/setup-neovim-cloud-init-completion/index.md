@@ -141,7 +141,7 @@ nvim +PlugInstall
 ```
 
 At this point, opening a file named `user-data.yml` with neovim should start
-the yamlls server and source the schema for type hints.
+the yamlls server and source the schema for yaml hints.
 
 To view all available keys, use `<ctrl-space>` (in insert mode).
 
