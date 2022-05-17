@@ -73,7 +73,7 @@ for easier configuration.
 </span></span><span style=display:flex><span>  settings <span style=color:#f92672>=</span> {
 </span></span><span style=display:flex><span>    yaml <span style=color:#f92672>=</span> {
 </span></span><span style=display:flex><span>      schemas <span style=color:#f92672>=</span> {
-</span></span><span style=display:flex><span>        [<span style=color:#e6db74>&#34;https://raw.githubusercontent.com/canonical/cloud-init/main/cloudinit/config/cloud-init-schema.json&#34;</span>]<span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;user-data.yml&#34;</span>,
+</span></span><span style=display:flex><span>        [<span style=color:#e6db74>&#34;https://raw.githubusercontent.com/canonical/cloud-init/main/cloudinit/config/schemas/versions.schema.cloud-config.json&#34;</span>]<span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;user-data.yml&#34;</span>,
 </span></span><span style=display:flex><span>      }
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>  }
@@ -90,7 +90,8 @@ for easier configuration.
 </span></span></code></pre></div><h1 id=quicktest>Quicktest</h1><p>I wrote a <a href=https://gist.githubusercontent.com/holmanb/75e0974c759dd6180cdf74da6fd01551/raw/c70ffba3e454957754923eaf8060ef4b3feaaa27/user-data-schema-neovim.yml>cloud config</a>
 that will configure neovim in an lxc container.
 This requires LXD to be installed and configured.</p><p>To use this config, execute the following:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># Launch the image with the cloud-config</span>
-</span></span><span style=display:flex><span>lxc launch images:ubuntu/kinetic/cloud neovim -c cloud-init.user-data<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;</span><span style=color:#66d9ef>$(</span>curl https://gist.githubusercontent.com/holmanb/75e0974c759dd6180cdf74da6fd01551/raw/c70ffba3e454957754923eaf8060ef4b3feaaa27/user-data-schema-neovim.yml<span style=color:#66d9ef>)</span><span style=color:#e6db74>&#34;</span>
+</span></span><span style=display:flex><span>lxc launch images:ubuntu/kinetic/cloud neovim <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>	-c cloud-init.user-data<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;</span><span style=color:#66d9ef>$(</span>curl https://gist.githubusercontent.com/holmanb/75e0974c759dd6180cdf74da6fd01551/raw/aed0f4f3c38a56d06309878b61e91d1a9dca0894/user-data-schema-neovim.yml<span style=color:#66d9ef>)</span><span style=color:#e6db74>&#34;</span>
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span><span style=color:#75715e># This will take a couple of minutes - coffee break!</span>
 </span></span><span style=display:flex><span>lxc exec neovim -- sh -c <span style=color:#e6db74>&#34;cd /root &amp;&amp; cloud-init status --wait &amp;&amp; nvim user-data.yml&#34;</span>
