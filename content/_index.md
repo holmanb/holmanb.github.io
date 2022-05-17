@@ -26,6 +26,6 @@ author = "Brett Holman"
 
 # What's with the website name?
 
-A pro sports athlete shares my name that wasn't an option.
+A pro sports athlete shares my name so that wasn't an option.
 
 Some metaphor about rebuilding things I guess?
