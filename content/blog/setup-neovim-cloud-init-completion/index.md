@@ -3,22 +3,26 @@ title: "Quickstart: Neovim Configuration for cloud-init"
 ---
 
 
-# The Problem
-
 Manually writing yaml cloud-configs is error prone and debugging can be
 painful. Neovim can help us write configs faster and with more
-confidence with editor hints made available using the user-data jsonschema.
+confidence with editor integration.
+
+This post will help you get up and running with cloud-init editor integration
+for Neovim.
+
+![cloud-init tab completion with default colorscheme](cloud-init.png)
 
 
 # Background
 
-Neovim has native LSP support as of 0.5. This means that Neovim can use
-many of the same language servers available in VS Code with just a little
-configuration.
+Since neovim has native LSP support, it can use many of the same language
+servers available in VS Code (and any other language server that implements the
+[Language Server Protocol](https://microsoft.github.io/language-server-protocol/))
+with just a little configuration.
 
 
-Cloud-init uses a jsonschema for validating user configs. This can
-be invoked via `cloud-init schema -c userdata.yml` starting with release 22.2 (May 2022).
+Cloud-init uses a jsonschema for validating user configs. This can be manually
+invoked via `cloud-init schema -c userdata.yml` starting with release 22.2 (May 2022).
 The same schema will be used for editor hints.
 
 We will also install and configure
@@ -26,14 +30,11 @@ We will also install and configure
 neovim, and [yamlls](https://github.com/redhat-developer/yaml-language-server)
 language server, which is described as a "Language Server for YAML Files".
 
-
-# Testing
-
-This post demonstrates how to configure a language server for cloud-init. If
-you would rather test this functionality without modifying your configs,
+If you would rather test this functionality without modifying your configs,
 you're in luck! Skip ahead to the
 [quicktest]({{< ref "setup-neovim-cloud-init-completion.md#quicktest" >}})
 section.
+
 
 # Dependencies:
 
@@ -139,12 +140,19 @@ sh -c 'curl -fLo /root/.local/share/nvim/site/autoload/plug.vim --create-dirs \
 nvim +PlugInstall
 ```
 
+At this point, opening a file named `user-data.yml` with neovim should start
+the yamlls server and source the schema for type hints.
+
+To view all available keys, use `<ctrl-space>` (in insert mode).
+
+If `nvim` shows an error or doesn't behave as expected, I suggest executing
+`:checkhealth` to check for errors, and `:help lsp` for more information.
+
 
 # Quicktest
 
-I wrote a [cloud config](https://gist.githubusercontent.com/holmanb/75e0974c759dd6180cdf74da6fd01551/raw/c70ffba3e454957754923eaf8060ef4b3feaaa27/user-data-schema-neovim.yml)
-that will configure neovim in an lxc container.
-This requires LXD to be installed and configured.
+This [cloud config](https://gist.githubusercontent.com/holmanb/75e0974c759dd6180cdf74da6fd01551/raw/c70ffba3e454957754923eaf8060ef4b3feaaa27/user-data-schema-neovim.yml)
+will configure neovim in an lxc container. This requires LXD.
 
 To use this config, execute the following:
 
