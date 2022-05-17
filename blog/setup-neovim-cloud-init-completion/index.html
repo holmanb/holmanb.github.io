@@ -89,7 +89,7 @@ for easier configuration.
 </span></span><span style=display:flex><span><span style=color:#75715e># install yaml plugins</span>
 </span></span><span style=display:flex><span>nvim +PlugInstall
 </span></span></code></pre></div><p>At this point, opening a file named <code>user-data.yml</code> with neovim should start
-the yamlls server and source the schema for type hints.</p><p>To view all available keys, use <code>&lt;ctrl-space></code> (in insert mode).</p><p>If <code>nvim</code> shows an error or doesn&rsquo;t behave as expected, I suggest executing
+the yamlls server and source the schema for yaml hints.</p><p>To view all available keys, use <code>&lt;ctrl-space></code> (in insert mode).</p><p>If <code>nvim</code> shows an error or doesn&rsquo;t behave as expected, I suggest executing
 <code>:checkhealth</code> to check for errors, and <code>:help lsp</code> for more information.</p><h1 id=quicktest>Quicktest</h1><p>This <a href=https://gist.githubusercontent.com/holmanb/75e0974c759dd6180cdf74da6fd01551/raw/c70ffba3e454957754923eaf8060ef4b3feaaa27/user-data-schema-neovim.yml>cloud config</a>
 will configure neovim in an lxc container. This requires LXD.</p><p>To use this config, execute the following:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># Launch the image with the cloud-config</span>
 </span></span><span style=display:flex><span>lxc launch images:ubuntu/kinetic/cloud neovim <span style=color:#ae81ff>\
