@@ -119,7 +119,7 @@ require'lspconfig'.yamlls.setup{
   settings = {
     yaml = {
       schemas = {
-        ["https://raw.githubusercontent.com/canonical/cloud-init/main/cloudinit/config/cloud-init-schema.json"]= "user-data.yml",
+        ["https://raw.githubusercontent.com/canonical/cloud-init/main/cloudinit/config/schemas/versions.schema.cloud-config.json"]= "user-data.yml",
       }
     }
   }
@@ -150,7 +150,8 @@ To use this config, execute the following:
 
 ```bash
 # Launch the image with the cloud-config
-lxc launch images:ubuntu/kinetic/cloud neovim -c cloud-init.user-data="$(curl https://gist.githubusercontent.com/holmanb/75e0974c759dd6180cdf74da6fd01551/raw/c70ffba3e454957754923eaf8060ef4b3feaaa27/user-data-schema-neovim.yml)"
+lxc launch images:ubuntu/kinetic/cloud neovim \
+	-c cloud-init.user-data="$(curl https://gist.githubusercontent.com/holmanb/75e0974c759dd6180cdf74da6fd01551/raw/aed0f4f3c38a56d06309878b61e91d1a9dca0894/user-data-schema-neovim.yml)"
 
 # This will take a couple of minutes - coffee break!
 lxc exec neovim -- sh -c "cd /root && cloud-init status --wait && nvim user-data.yml"
