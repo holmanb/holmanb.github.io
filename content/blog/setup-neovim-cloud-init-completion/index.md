@@ -10,7 +10,36 @@ confidence with editor integration.
 This post will help you get up and running with cloud-init editor integration
 for Neovim.
 
-![cloud-init tab completion with default colorscheme](cloud-init.png)
+Here's an example completion list copied from my editor:
+```vim
+1 #cloud-config
+2 users:
+3   - name: holmanb
+4     |
+~       uid~                 Property
+~       sudo                 Property
+~       gecos                Property
+~       shell                Property
+~       groups               Property
+~       passwd               Property
+~       system~              Property
+~       homedir~             Property
+~       inactive             Property
+~       snapuser             Property
+~       expiredate~          Property
+~       lock_passwd~         Property
+~       no_log_init~         Property
+~       selinux_user         Property
+~       no_user_group~       Property
+~       hashed_passwd        Property
+~       create_groups~       Property
+~       primary_group~       Property
+~       ssh_import_id~       Property
+~       no_create_home~      Property
+~       plain_text_passwd    Property
+~       ssh_redirect_user~   Property
+~       ssh_authorized_keys~ Property
+```
 
 
 # Background
