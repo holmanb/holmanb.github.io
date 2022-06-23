@@ -16,16 +16,4 @@ author = "Brett Holman"
 
 * operating systems
 * software performance
-* programming languages
-
-# Hobbies:
-
-* rock climbing
-* reading
-* chess
-
-# What's with the website name?
-
-A pro sports athlete shares my name so that wasn't an option.
-
-Some metaphor about rebuilding things I guess?
+* open source
