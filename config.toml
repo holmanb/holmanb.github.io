@@ -6,7 +6,7 @@ author = 'Brett Holman'
 paginate = 3
 DefaultContentLanguage = "en"
 enableInlineShortcodes = true
-copyright = "© 2022 Brett Holman"
+copyright = "© 2025 Brett Holman"
 
 # Automatically add content sections to main menu
 #sectionPagesMenu = "main"
