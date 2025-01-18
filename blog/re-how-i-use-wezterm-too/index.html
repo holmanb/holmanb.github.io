@@ -1,0 +1,146 @@
+<!doctype html><html lang=en><head><title>re: how i use wezterm &ndash; Phoenix Labs</title>
+<meta name=viewport content="width=device-width,initial-scale=1"><meta charset=utf-8><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin=anonymous><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/academicons/1.9.1/css/academicons.min.css integrity="sha512-b1ASx0WHgVFL5ZQhTgiPWX+68KjS38Jk87jg7pe+qC7q9YkEtFq0z7xCglv7qGIs/68d3mAp+StfC8WKC5SSAg==" crossorigin=anonymous><link rel=stylesheet href=https://phoenix-labs.xyz/css/colour/gruvbox-dark.css><link rel=stylesheet href=https://phoenix-labs.xyz/css/colour/dark-mode.css><link rel=stylesheet href=https://phoenix-labs.xyz/css/risotto.css><link rel=stylesheet href=https://phoenix-labs.xyz/css/custom.css><script async src="https://www.googletagmanager.com/gtag/js?id=UA-69942427-1"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","UA-69942427-1")</script></head><body><div class=page><aside><h2>Links</h2><ul><li><a href=https://github.com/holmanb/ target=_blank>Github</a></li><li><a href=https://www.linkedin.com/in/brett-holman/ target=_blank>Linkedin</a></li></ul></aside><header class=page__header><h1 class=page__logo><a href=https://phoenix-labs.xyz/ class=page__logo-inner>Phoenix Labs</a></h1><nav class="page__nav main-nav"><ul><li class=main-nav__item><a class=nav-main-item href=/ title>About</a></li><li class=main-nav__item><a class=nav-main-item href=/blog/ title>Blog</a></li></ul></nav></header><section class=page__body><header class=content__header><h1>re: how i use wezterm</h1></header><div class=content__body><p>While configuring Wezterm, I stumbled across Matthew O&rsquo;Phinney&rsquo;s blog
+post about Wezterm.</p><p>This post is based on his, so if you haven&rsquo;t read it yet
+<a href=https://mwop.net/blog/2024-07-04-how-i-use-wezterm.html>go read his first</a>.</p><h1 id=how-i-chose-wezterm>How I Chose Wezterm</h1><p>I used to use exclusively tiling window managers (i3-> sway -> DWM*). For
+practical reasons I have used custom keybindings for tiling windows and
+swapping workspaces on Gnome. What started as constant tmux use turned
+occasional and was eventually superseded by vim&rsquo;s (later neovim) split windows.</p><p>Gnome-terminal was less than satisfactory but hadn&rsquo;t bothered with custom
+terminals** until recently.</p><p>I use Wayland and enjoy writing core code in modern type-safe languages. My
+neovim configuration enjoys the flexibility of Lua. Wezterm stood
+out when compared to the other modern terminal emulator options.</p><h1 id=how-matthew-uses-wezterm>How Matthew uses Wezterm</h1><p>His post was a fantastic introduction. It adds nice functional additions on top
+of the default configuration. Sessions were the original reason that I took
+interest in his post. The ability to switch between and resize neovim windows
+and Wezterm panes using the same keybindings was interesting. I had never used
+the tmux plugin that he mentioned, but I saw the benefit in that and was
+intrigued.</p><h1 id=another-look-at-the-integration-plugin>Another look at the integration plugin</h1><p>After experimenting with the configuration that he shared, I took another look
+at the neovim integration plugin. Depending on it made me uncomfortable for a
+number of reasons:</p><ol><li>last update was 3 years ago</li><li>low user activity (3 forks / 41 stars including mine)</li><li>depends on deprecated behavior</li></ol><p>None of the above is a dealbreaker for short-term use, but my experience with
+neovim is that the community is large and moves fast; lots of little projects
+get left behind as APIs change and larger projects gain community traction. The
+extra source dependency wasn&rsquo;t appealing either.</p><p>Upon inspecting the code, I realized that the entire utility is 32 lines of go:
+a single RPC call.</p><h1 id=a-small-change-in-the-tooling>A small change in the tooling</h1><p>I set out to remove the dependency on the deprecated environment variable and
+Go.</p><h2 id=deprecated-nvim_listen_address>Deprecated $NVIM_LISTEN_ADDRESS</h2><p>The plugin uses the pane ID to tell neovim where to open the RPC socket for the
+server to listen on. This is what it used <code>$NVIM_LISTEN_ADDRESS</code> is used for.</p><p>This environment variable <a href=https://neovim.io/doc/user/deprecated.html#_environment-variables>is
+deprecated</a>
+because it overloaded for too many things which causes problems in various
+ways. The location of the socket file can be set using <code>--listen</code>, so a simple
+shell alias allows us to tell neovim where to set the unix socket. Wezterm
+communicates the pane ID to the current shell via the <code>$WEZTERM_PANE</code>
+environment variable. If this environment variable exists, we can tell neovim
+to use it with the following in <code>.bashrc</code>.</p><pre tabindex=0><code>## wezterm &lt;-&gt; neovim integration
+#
+# this sets the pane to a known filepath when neovim is invoked in a wezterm pane
+# see ~/.weztermrc for where this gets used
+#
+# note: NVIM_RUNTIME_DIR is deprecated, and NVIM does not set socket location, per the docs
+# --listen is the preferred way to set the primary socket
+if [ -n &#34;$WEZTERM_PANE&#34; ]; then
+    alias nvim=&#39;nvim --listen $XDG_RUNTIME_DIR/wezterm/pane-${WEZTERM_PANE}.sock&#39;
+fi wezterm &lt;-&gt; neovim integration
+#
+# this sets the pane to a known filepath when neovim is invoked in a wezterm pane
+# see ~/.weztermrc for where this gets used
+#
+# note: NVIM_RUNTIME_DIR is deprecated, and NVIM does not set socket location, per the docs
+# --listen is the preferred way to set the primary socket
+if [ -n &#34;$WEZTERM_PANE&#34; ]; then
+    alias nvim=&#39;nvim --listen $XDG_RUNTIME_DIR/wezterm/pane-${WEZTERM_PANE}.sock&#39;
+fi
+</code></pre><h2 id=golang-dependency>Golang dependency</h2><p>Wezterm is configured in lua. Neovim is configured in lua. Go as a language
+doesn&rsquo;t add a benefit - and thankfully isn&rsquo;t required.</p><p>Neovim supports using the <code>nvim</code> command itself
+<a href=https://neovim.io/doc/user/remote.html>for RPC calls</a> with running neovim
+sessions.</p><p>The following command in a key press event handler is sufficient to indicate
+whether the key press should be redirected to neovim or kept within Wezterm:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>nvim --headless --server &lt;socket file&gt; --remote-expr <span style=color:#e6db74>&#39;winnr() == winnr(&#34;&lt;direction&gt;&#34;)&#39;</span>
+</span></span></code></pre></div><p>The <code>winnr() == winnr("&lt;>")</code> piece above just checks to see if there is another
+neovim window in the direction of the key press. If they are the same number,
+then the key press is directed to Wezterm, otherwise sit is sent to neovim.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lua data-lang=lua><span style=display:flex><span><span style=color:#75715e>-- Wezterm &lt;-&gt; nvim pane integration</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>--</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>-- Before switching or resizing a wezterm pane, check first whether</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>-- switching or resizing a neovim window would be preferred.</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>--</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>-- This requires the neovim socket to be discoverable by wezterm at a known</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>-- location. NVIM_RUNTIME_DIR is the deprecated way to do that, &#39;--listen&#39; is</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>-- preferred. Therefore, set the following in your shell configuration</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>--</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>-- if [ -n &#34;$WEZTERM_PANE&#34; ]; then</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>--     alias nvim=&#34;nvim --listen $XDG_RUNTIME_DIR/wezterm/pane-${WEZTERM_PANE}.sock&#34;</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>-- fi</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>--</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>-- This uses neovim as an RPC client to discover the position of the current window.</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>--</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>local</span> commands_for_nvim <span style=color:#f92672>=</span> <span style=color:#66d9ef>function</span>(pane, direction)
+</span></span><span style=display:flex><span>	<span style=color:#75715e>-- if nvim is installed locally rather than system-wide, set this variable to</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>-- the correct path, otherwise Wezterm won&#39;t be able to find it and the nvim</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>-- command will exit with error code 127.</span>
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>local</span> nvim_path <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;nvim&#34;</span>
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>local</span> runtime_dir <span style=color:#f92672>=</span> os.getenv(<span style=color:#e6db74>&#34;XDG_RUNTIME_DIR&#34;</span>)
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>if</span> <span style=color:#f92672>not</span> runtime_dir <span style=color:#66d9ef>then</span>
+</span></span><span style=display:flex><span>		<span style=color:#75715e>-- no XDG_RUNTIME_DIR, no neovim pane integration</span>
+</span></span><span style=display:flex><span>		<span style=color:#75715e>-- it is probably possible to support no XDG_RUNTIME_DIR -&gt; why bother?</span>
+</span></span><span style=display:flex><span>		wezterm.log_warn(<span style=color:#e6db74>&#34;Environment variable XDG_RUNTIME_DIR not set, neovim integration not supported.&#34;</span>)
+</span></span><span style=display:flex><span>		<span style=color:#66d9ef>return</span> <span style=color:#66d9ef>false</span>
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>end</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>	<span style=color:#75715e>-- no socket exists, no neovim running in this pane</span>
+</span></span><span style=display:flex><span>	<span style=color:#75715e>-- this assumes neovim was started with</span>
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>local</span> socket_dir <span style=color:#f92672>=</span> tostring(runtime_dir) <span style=color:#f92672>..</span> <span style=color:#e6db74>&#34;/wezterm/&#34;</span>
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>local</span> socket <span style=color:#f92672>=</span> socket_dir <span style=color:#f92672>..</span> <span style=color:#e6db74>&#34;pane-&#34;</span> <span style=color:#f92672>..</span> tostring(pane:pane_id()) <span style=color:#f92672>..</span> <span style=color:#e6db74>&#34;.sock&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>	<span style=color:#75715e>-- standard library doesn&#39;t give you tools to check if a path exists</span>
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>for</span> _, file_name <span style=color:#66d9ef>in</span> ipairs(wezterm.read_dir(socket_dir)) <span style=color:#66d9ef>do</span>
+</span></span><span style=display:flex><span>		<span style=color:#66d9ef>if</span> file_name <span style=color:#f92672>==</span> socket <span style=color:#66d9ef>then</span>
+</span></span><span style=display:flex><span>			<span style=color:#66d9ef>local</span> cmd <span style=color:#f92672>=</span> nvim_path
+</span></span><span style=display:flex><span>				<span style=color:#f92672>..</span> <span style=color:#e6db74>&#34; --headless --server &#34;</span>
+</span></span><span style=display:flex><span>				<span style=color:#f92672>..</span> socket
+</span></span><span style=display:flex><span>				<span style=color:#f92672>..</span> <span style=color:#e6db74>&#34; --remote-expr &#39;winnr() == winnr(</span><span style=color:#ae81ff>\&#34;</span><span style=color:#e6db74>&#34;</span>
+</span></span><span style=display:flex><span>				<span style=color:#f92672>..</span> direction
+</span></span><span style=display:flex><span>				<span style=color:#f92672>..</span> <span style=color:#e6db74>&#39;&#34;)&#39;</span>
+</span></span><span style=display:flex><span>				<span style=color:#f92672>..</span> <span style=color:#e6db74>&#34;&#39;&#34;</span>
+</span></span><span style=display:flex><span>			<span style=color:#66d9ef>local</span> handle <span style=color:#f92672>=</span> io.popen(cmd)
+</span></span><span style=display:flex><span>			<span style=color:#66d9ef>if</span> <span style=color:#f92672>not</span> handle <span style=color:#66d9ef>then</span>
+</span></span><span style=display:flex><span>				wezterm.log_error(<span style=color:#e6db74>&#34;Failed to send RPC to neovim server: &#34;</span> <span style=color:#f92672>..</span> cmd)
+</span></span><span style=display:flex><span>				<span style=color:#66d9ef>return</span> <span style=color:#66d9ef>false</span>
+</span></span><span style=display:flex><span>			<span style=color:#66d9ef>end</span>
+</span></span><span style=display:flex><span>			<span style=color:#66d9ef>local</span> result <span style=color:#f92672>=</span> handle:read(<span style=color:#e6db74>&#34;*a&#34;</span>)
+</span></span><span style=display:flex><span>			<span style=color:#75715e>-- this is weird but not well documented and it works?</span>
+</span></span><span style=display:flex><span>			<span style=color:#66d9ef>local</span> rc <span style=color:#f92672>=</span> { handle:close() }
+</span></span><span style=display:flex><span>			<span style=color:#66d9ef>local</span> exit_code <span style=color:#f92672>=</span> rc[<span style=color:#ae81ff>3</span>]
+</span></span><span style=display:flex><span>			<span style=color:#66d9ef>if</span> exit_code <span style=color:#f92672>~=</span> <span style=color:#ae81ff>0</span> <span style=color:#66d9ef>then</span>
+</span></span><span style=display:flex><span>				wezterm.log_error(<span style=color:#e6db74>&#34;Failed to run RPC command: &#34;</span> <span style=color:#f92672>..</span> cmd <span style=color:#f92672>..</span> <span style=color:#e6db74>&#34; - &#34;</span>)
+</span></span><span style=display:flex><span>				wezterm.log_error(rc)
+</span></span><span style=display:flex><span>			<span style=color:#66d9ef>end</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>			<span style=color:#75715e>-- a debug log level would be nice, but since info events are</span>
+</span></span><span style=display:flex><span>			<span style=color:#75715e>-- logged, leave this commented out unless debugging</span>
+</span></span><span style=display:flex><span>			<span style=color:#75715e>-- wezterm.log_info(cmd .. &#34; result: &#34; .. tostring(result))</span>
+</span></span><span style=display:flex><span>			<span style=color:#66d9ef>if</span> <span style=color:#e6db74>&#34;0&#34;</span> <span style=color:#f92672>==</span> result <span style=color:#66d9ef>then</span>
+</span></span><span style=display:flex><span>				<span style=color:#66d9ef>return</span> <span style=color:#66d9ef>true</span>
+</span></span><span style=display:flex><span>			<span style=color:#66d9ef>else</span>
+</span></span><span style=display:flex><span>				<span style=color:#66d9ef>return</span> <span style=color:#66d9ef>false</span>
+</span></span><span style=display:flex><span>			<span style=color:#66d9ef>end</span>
+</span></span><span style=display:flex><span>		<span style=color:#66d9ef>end</span>
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>end</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>return</span> <span style=color:#66d9ef>false</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>end</span>
+</span></span></code></pre></div><p>That did most of the heavy lifting - now we just need to update the
+<code>move_around()</code> and <code>vim_resize()</code> function from Matthew&rsquo;s post:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lua data-lang=lua><span style=display:flex><span><span style=color:#75715e>-- move: integrate Wezterm and neovim keybindings</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>local</span> move_around <span style=color:#f92672>=</span> <span style=color:#66d9ef>function</span>(window, pane, direction_wez, direction_nvim)
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>if</span> commands_for_nvim(pane, direction_nvim) <span style=color:#66d9ef>then</span>
+</span></span><span style=display:flex><span>		window:perform_action(act({ SendString <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;</span><span style=color:#ae81ff>\x17</span><span style=color:#e6db74>&#34;</span> <span style=color:#f92672>..</span> direction_nvim }), pane)
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>else</span>
+</span></span><span style=display:flex><span>		window:perform_action(act({ ActivatePaneDirection <span style=color:#f92672>=</span> direction_wez }), pane)
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>end</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>end</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>-- resize: integrate Wezterm and neovim keybindings</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>local</span> vim_resize <span style=color:#f92672>=</span> <span style=color:#66d9ef>function</span>(window, pane, direction_wez, direction_nvim)
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>if</span> commands_for_nvim(pane, direction_nvim) <span style=color:#66d9ef>then</span>
+</span></span><span style=display:flex><span>		window:perform_action(act({ SendString <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;</span><span style=color:#ae81ff>\x1b</span><span style=color:#e6db74>&#34;</span> <span style=color:#f92672>..</span> direction_nvim }), pane)
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>else</span>
+</span></span><span style=display:flex><span>		window:perform_action(act({ AdjustPaneSize <span style=color:#f92672>=</span> { direction_wez, <span style=color:#ae81ff>2</span> } }), pane)
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>end</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>end</span>
+</span></span></code></pre></div><p>There you have it. No extra dependencies or deprecated environment variables!</p><p>Thanks, Matthew!</p><h1 id=notes>Notes</h1><ul><li>a workflow based around the concept that single window could live on multiple
+workspace was powerful for me</li></ul><p>** okay fine, I used to use terminator and <code>urxvt</code>, probably some others too</p></div><section class=post__footer><h1>Bugs</h1>If this post contains dated or inaccurate information, please open a
+[<a href=https://github.com/holmanb/holmanb.github.io/issues>bug report</a>].</section><footer class=content__footer></footer></section><footer class=page__footer><p class=copyright>© 2022 Brett Holman</p></footer></div></body></html>

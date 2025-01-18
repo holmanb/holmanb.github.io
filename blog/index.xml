@@ -1,3 +1,26 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Blog on Phoenix Labs</title><link>https://phoenix-labs.xyz/blog/</link><description>Recent content in Blog on Phoenix Labs</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>© 2022 Brett Holman</copyright><atom:link href="https://phoenix-labs.xyz/blog/index.xml" rel="self" type="application/rss+xml"/><item><title>Quickstart: Neovim Configuration for cloud-init</title><link>https://phoenix-labs.xyz/blog/setup-neovim-cloud-init-completion/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://phoenix-labs.xyz/blog/setup-neovim-cloud-init-completion/</guid><description>Manually writing yaml cloud-configs is error prone and debugging can be painful. Neovim can help us write configs faster and with more confidence with editor integration.
-This post will help you get up and running with cloud-init editor integration for Neovim.
-Background Since neovim has native LSP support, it can use many of the same language servers available in VS Code (and any other language server that implements the Language Server Protocol) with just a little configuration.</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Blog on Phoenix Labs</title><link>https://phoenix-labs.xyz/blog/</link><description>Recent content in Blog on Phoenix Labs</description><generator>Hugo</generator><language>en-us</language><copyright>© 2022 Brett Holman</copyright><atom:link href="https://phoenix-labs.xyz/blog/index.xml" rel="self" type="application/rss+xml"/><item><title>Quickstart: Neovim Configuration for cloud-init</title><link>https://phoenix-labs.xyz/blog/setup-neovim-cloud-init-completion/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://phoenix-labs.xyz/blog/setup-neovim-cloud-init-completion/</guid><description>&lt;script id="asciicast-0jOamgk2yBmXbI8hIGPa7ad17" src="https://asciinema.org/a/0jOamgk2yBmXbI8hIGPa7ad17.js"
+	async
+	data-autoplay="true"
+	data-loop="true"
+	data-size="big"
+	data-preload="true"
+	data-idleTimeLimit="1"
+	theme="asciinema">&lt;/script>
+&lt;p>Manually writing yaml cloud-configs is error prone and debugging can be
+painful. Neovim can help us write configs faster and with more
+confidence with editor integration.&lt;/p>
+&lt;p>This post will help you get up and running with cloud-init editor integration
+for Neovim.&lt;/p>
+&lt;h1 id="background">Background&lt;/h1>
+&lt;p>Since neovim has native LSP support, it can use many of the same language
+servers available in VS Code (and any other language server that implements the
+&lt;a href="https://microsoft.github.io/language-server-protocol/">Language Server Protocol&lt;/a>)
+with just a little configuration.&lt;/p></description></item><item><title>re: how i use wezterm</title><link>https://phoenix-labs.xyz/blog/re-how-i-use-wezterm-too/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://phoenix-labs.xyz/blog/re-how-i-use-wezterm-too/</guid><description>&lt;p>While configuring Wezterm, I stumbled across Matthew O&amp;rsquo;Phinney&amp;rsquo;s blog
+post about Wezterm.&lt;/p>
+&lt;p>This post is based on his, so if you haven&amp;rsquo;t read it yet
+&lt;a href="https://mwop.net/blog/2024-07-04-how-i-use-wezterm.html">go read his first&lt;/a>.&lt;/p>
+&lt;h1 id="how-i-chose-wezterm">How I Chose Wezterm&lt;/h1>
+&lt;p>I used to use exclusively tiling window managers (i3-&amp;gt; sway -&amp;gt; DWM*). For
+practical reasons I have used custom keybindings for tiling windows and
+swapping workspaces on Gnome. What started as constant tmux use turned
+occasional and was eventually superseded by vim&amp;rsquo;s (later neovim) split windows.&lt;/p></description></item></channel></rss>
